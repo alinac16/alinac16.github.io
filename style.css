@@ -298,7 +298,7 @@ img { display: block; max-width: 100%; }
   transform: translateX(-50%);
 }
 
-.timeline-item { width: 46%; position: relative; margin-bottom: 3.5rem; }
+.timeline-item { width: 46%; position: relative; margin-bottom: 1.5rem; }
 .timeline-item.left  { margin-right: auto; padding-right: 3rem; }
 .timeline-item.right { margin-left: auto;  padding-left: 3rem;  }
 
