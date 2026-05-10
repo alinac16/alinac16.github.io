@@ -109,6 +109,11 @@ img { display: block; max-width: 100%; }
 .nav-link.active::after { transform: scaleX(1); }
 .nav-link.active { color: var(--accent); }
 
+@media (hover: none) {
+  .nav-link:not(.active):hover::after { transform: scaleX(0); }
+  .nav-link:not(.active):hover { color: var(--text-secondary); }
+}
+
 /* ============================================================
    Sections
    ============================================================ */

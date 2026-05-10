@@ -361,21 +361,31 @@
       document.documentElement.style.setProperty('--mouse-y', clientY + 'px');
     });
 
-    // ── Active nav on scroll ──────────────────────────────
-    const sections  = document.querySelectorAll('section[id]');
-    const navLinks  = document.querySelectorAll('.nav-link[data-section]');
+    // ── Active nav follows scroll position ───────────────
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link[data-section]');
 
-    const navObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(link => {
-            link.classList.toggle('active', link.dataset.section === entry.target.id);
-          });
-        }
+    const updateNav = () => {
+      let current = sections[0].id;
+      sections.forEach(section => {
+        if (section.getBoundingClientRect().top <= 150) current = section.id;
       });
-    }, { threshold: 0.35 });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.dataset.section === current);
+      });
+    };
 
-    sections.forEach(s => navObserver.observe(s));
+    window.addEventListener('scroll', updateNav, { passive: true });
+
+    // Mobile browsers may swallow scroll events during anchor smooth-scroll.
+    // Re-check position at multiple delays after click to catch final scroll.
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        [50, 200, 500, 800, 1200].forEach(d => setTimeout(updateNav, d));
+      });
+    });
+
+    updateNav();
 
     // ── Timeline card scroll animations ──────────────────
     const cardObserver = new IntersectionObserver((entries) => {
